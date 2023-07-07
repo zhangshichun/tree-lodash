@@ -12,7 +12,6 @@ export type ForeachCallbackMeta<T extends ChildrenKey> = {
 
 export type ForeachCallback<T extends ChildrenKey> = (treeItem: Tree<T>, meta: ForeachCallbackMeta<T>) => void
 
-export type Foreach<T extends ChildrenKey> = (tree: Tree<T> | Tree<T>[], callback: ForeachCallback<T>, options?: ForeachOptions) => void
 
 type ForeachInnerOption<T extends ChildrenKey> = {
   childrenKey: ChildrenKey
@@ -44,7 +43,7 @@ const postImpl: ForeachImpl<ChildrenKey> = (treeItem, callback, options) => {
   const children = treeItem[options.childrenKey]
   if (children && Array.isArray(children)) {
     children.forEach((childItem) => {
-      preImpl(childItem, callback, {
+      postImpl(childItem, callback, {
         ...options,
         parents: [...options.parents, treeItem],
         depth: options.depth + 1
@@ -61,7 +60,7 @@ type QueueItem = {
 }
 
 // 广度优先遍历
-const breadth: ForeachImpl<ChildrenKey> = (treeItem, callback, options) => {
+const breadthImpl: ForeachImpl<ChildrenKey> = (treeItem, callback, options) => {
   const queue: QueueItem[] = [
     {
       tree: treeItem,
@@ -75,7 +74,7 @@ const breadth: ForeachImpl<ChildrenKey> = (treeItem, callback, options) => {
     const queueItem = queue.shift() as QueueItem
     const treeItem = queueItem.tree
     if (treeItem[options.childrenKey] && Array.isArray(treeItem[options.childrenKey])) {
-      const subQueueItems = treeItem[options.childrenKey].map(subTree => (
+      const subQueueItems = treeItem[options.childrenKey].map((subTree: Tree) => (
         {
           tree: subTree,
           options: {
@@ -96,18 +95,18 @@ const breadth: ForeachImpl<ChildrenKey> = (treeItem, callback, options) => {
 const strategies = {
   'pre': preImpl,
   'post': postImpl,
-  'breadth': breadth
+  'breadth': breadthImpl
 }
 
-const foreach: Foreach<ChildrenKey> = (tree, callback, options = {}) => {
+function foreach<T extends ChildrenKey> (tree: Tree<T> | Tree<T>[] , callback: ForeachCallback<T>, options?: ForeachOptions): void{
   const childrenKey = options?.childrenKey ?? 'children'
-  const strategy = options.strategy ?? 'pre'
+  const strategy = options?.strategy ?? 'pre'
   const isForest = Array.isArray(tree)
   const method = strategies[strategy]
   const innerOptions = {
     childrenKey,
     depth: 0,
-    parents: []
+    parents: [] as Tree[]
   }
   isForest ? tree.forEach(tree => {
     method(tree, callback, innerOptions)
