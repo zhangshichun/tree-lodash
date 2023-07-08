@@ -1,10 +1,22 @@
 {
   "name": "tree-lodash",
   "version": "0.0.1",
+  "description": "Easily control the tree structure as you would with lodash.js (像使用 lodash.js 一样方便地操控树结构)",
+  "keywords": [
+    "tree",
+    "lodash",
+    "functional",
+    "browser",
+    "node",
+    "umd",
+    "esm"
+  ],
   "main": "dist/umd/index.js",
   "module": "dist/esm/index.js",
   "typings": "dist/esm/index.d.ts",
   "license": "MIT",
+  "repository": "https://github.com/zhangshichun/tree-lodash",
+  "bugs": "https://github.com/zhangshichun/tree-lodash/issues",
   "author": "https://github.com/zhangshichun",
   "scripts": {
     "build": "run-p \"build:*\"",
