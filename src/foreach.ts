@@ -1,14 +1,8 @@
-import type { ChildrenKey, Tree, Strategy } from "./types";
+import type { ChildrenKey, Tree, BaseOptions, BaseCallbackMeta } from "./types";
 
-export type ForeachOptions = {
-  childrenKey?: ChildrenKey
-  strategy?: Strategy
-}
+export type ForeachOptions = BaseOptions
 
-export type ForeachCallbackMeta<T extends ChildrenKey> = {
-  depth: number,
-  parents?: Tree<T>[]
-}
+export type ForeachCallbackMeta<T extends ChildrenKey> = BaseCallbackMeta<T>
 
 export type ForeachCallback<T extends ChildrenKey> = (treeItem: Tree<T>, meta: ForeachCallbackMeta<T>) => void
 

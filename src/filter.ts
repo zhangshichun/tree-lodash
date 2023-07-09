@@ -1,14 +1,8 @@
-import type { ChildrenKey, Tree, Strategy } from "./types";
+import type { ChildrenKey, Tree, BaseOptions, BaseCallbackMeta } from "./types";
 
-export type FilterOptions = {
-  childrenKey?: ChildrenKey
-  strategy?: Strategy
-}
+export type FilterOptions = BaseOptions
 
-export type FilterCallbackMeta<T extends ChildrenKey> = {
-  depth: number,
-  parents?: Tree<T>[]
-}
+export type FilterCallbackMeta<T extends ChildrenKey> = BaseCallbackMeta<T>
 
 export type FilterCallback<T extends ChildrenKey> = (treeItem: Tree<T>, meta: FilterCallbackMeta<T>) => any
 

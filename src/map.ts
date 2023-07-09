@@ -1,14 +1,8 @@
-import type { ChildrenKey, Tree, Strategy } from "./types";
+import type { ChildrenKey, Tree, BaseOptions, BaseCallbackMeta } from "./types";
 
-export type MapOptions = {
-  childrenKey?: ChildrenKey
-  strategy?: Strategy
-}
+export type MapOptions = BaseOptions
 
-export type MapCallbackMeta<T extends ChildrenKey> = {
-  depth: number,
-  parents?: Tree<T>[]
-}
+export type MapCallbackMeta<T extends ChildrenKey> = BaseCallbackMeta<T>
 
 export type MapCallback<T extends ChildrenKey> = (treeItem: Tree<T>, meta: MapCallbackMeta<T>) => any
 
