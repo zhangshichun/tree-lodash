@@ -1,6 +1,6 @@
 {
   "name": "tree-lodash",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Easily control the tree structure as you would with lodash.js (像使用 lodash.js 一样方便地操控树结构)",
   "keywords": [
     "tree",
