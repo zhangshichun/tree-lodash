@@ -115,7 +115,6 @@ describe('[find]', function () {
       res.push(t.key)
       return t.key <= 100 && t.key > 1
     }))
-    console.log("🔨🔪@zsc:: ~ file: find.test.ts:118 ~ constnewTree:Tree<'children'>|undefined=find ~ newTree:", newTree)
     expect(newTree?.key).to.be.equal(11);
     expect(newTree?.children?.[0]?.key).to.be.equal(111);
     expect(res.length).to.be.equal(2);
