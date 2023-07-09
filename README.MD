@@ -4,6 +4,8 @@
 
 > 像使用 `lodash.js` 一样方便地操控树结构
 
+![](https://pic.zhangshichun.top/pic/20230709-01.png)
+
 ## Install （安装）
 
 ```shell
