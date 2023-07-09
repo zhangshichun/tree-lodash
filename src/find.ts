@@ -68,7 +68,7 @@ const breadthImpl: FindImpl<ChildrenKey> = (treeItem, callback, options) => {
       options
     }
   ]
-  const runQueue = () => {
+  const runQueue = (): Tree | undefined => {
     if (queue.length === 0) {
       return undefined
     }
@@ -102,7 +102,7 @@ const strategies = {
   'breadth': breadthImpl
 }
 
-function find<T extends ChildrenKey>(tree: Tree<T> | Tree<T>[], callback , options?: FindOptions): Tree<T> | undefined {
+function find<T extends ChildrenKey>(tree: Tree<T> | Tree<T>[], callback: FindCallback<T>, options?: FindOptions): Tree<T> | undefined {
   const childrenKey = options?.childrenKey ?? 'children'
   const strategy = options?.strategy ?? 'pre'
   const method = strategies[strategy]
