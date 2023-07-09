@@ -9,3 +9,13 @@ export type Tree<T extends ChildrenKey = 'children'> = {
 }
 
 export type Strategy = 'pre' | 'post' | 'breadth'
+
+export type BaseOptions = {
+  childrenKey?: ChildrenKey
+  strategy?: Strategy
+}
+
+export type BaseCallbackMeta<T extends ChildrenKey> = {
+  depth: number,
+  parents?: Tree<T>[]
+}
