@@ -4,7 +4,8 @@
 
 > 像使用 `lodash.js` 一样方便地操控树结构
 
-![](https://pic.zhangshichun.top/pic/20230709-01.png)
+充分的单元测试：
+![](https://pic.zhangshichun.top/pic/20230710-01.jpg)
 
 ## Install （安装）
 

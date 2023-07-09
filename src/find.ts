@@ -3,15 +3,12 @@ import { ChildrenKey, Tree, BaseOptions, BaseCallbackMeta } from "./types";
 export type FindOptions = BaseOptions
 export type FindCallbackMeta<T extends ChildrenKey> = BaseCallbackMeta<T>
 export type FindCallback<T extends ChildrenKey> = (treeItem: Tree<T>, meta: FindCallbackMeta<T>) => boolean | undefined
-
 type FindInnerOption<T extends ChildrenKey> = {
   childrenKey: ChildrenKey
   parents: Tree<T>[],
   depth: number
 }
-
 type FindImpl<T extends ChildrenKey> = (treeItem: Tree<T>, callback: FindCallback<T>, options: FindInnerOption<T>) => Tree<T>|undefined
-
 
 // 前置深度优先遍历
 const preImpl: FindImpl<ChildrenKey> = (treeItem, callback, options) => {

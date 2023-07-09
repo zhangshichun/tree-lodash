@@ -121,61 +121,58 @@ describe('[find]', function () {
     expect(res[0]).to.be.equal(1);
     expect(res[1]).to.be.equal(11);
   })
-  // it('for forest by post strategy', function () {
-  //   const res: any[] = []
-  //   const newTree: Tree<'children'> | undefined = find(tree, ((t) => {
-  //     res.push(t.key)
-  //     return t.key <= 100 && t.key > 1
-  //   }), { strategy: 'post' })
-  //   expect(newTree?.key).to.be.equal(11);
-  //   expect(newTree?.children?.[0]?.key).to.be.equal(111);
-  //   expect(res.length).to.be.equal(2);
-  //   expect(res[0]).to.be.equal(111);
-  //   expect(res[1]).to.be.equal(11);
-  // })
-  // it('for forest by breadth strategy', function () {
-  //   const res: any[] = []
-  //   const newForest: Tree<'children'>[] | [] = find([tree], ((t) => {
-  //     res.push(t.key)
-  //     return t.key <= 100
-  //   }), { strategy: 'breadth' })
-  //   expect(newForest[0]?.key).to.be.equal(1);
-  //   expect(newForest[0]?.children?.[0]?.key).to.be.equal(11);
-  //   expect(newForest[0]?.children?.[0]?.children?.[0]?.key).to.be.equal(undefined);
-  //   expect(res.length).to.be.equal(5);
-  //   expect(res[0]).to.be.equal(1);
-  //   expect(res[1]).to.be.equal(11);
-  //   expect(res[2]).to.be.equal(12);
-  //   expect(res[3]).to.be.equal(111);
-  // })
+  it('for forest by post strategy', function () {
+    const res: any[] = []
+    const newTree: Tree<'children'> | undefined = find(tree, ((t) => {
+      res.push(t.key)
+      return t.key <= 100 && t.key > 1
+    }), { strategy: 'post' })
+    expect(newTree?.key).to.be.equal(11);
+    expect(newTree?.children?.[0]?.key).to.be.equal(111);
+    expect(res.length).to.be.equal(2);
+    expect(res[0]).to.be.equal(111);
+    expect(res[1]).to.be.equal(11);
+  })
+  it('for forest by breadth strategy', function () {
+    const res: any[] = []
+    const matchedItem: Tree<'children'> | undefined = find([tree], ((t) => {
+      res.push(t.key)
+      return t.key <= 100 && t.key > 1
+    }), { strategy: 'breadth' })
+    expect(matchedItem?.key).to.be.equal(11);
+    expect(matchedItem?.children?.[0]?.key).to.be.equal(111);
+    expect(res.length).to.be.equal(2);
+    expect(res[0]).to.be.equal(1);
+    expect(res[1]).to.be.equal(11);
+  })
 
-  // it('for forest no-matched item by default strategy (pre)', function () {
-  //   const res: any[] = []
-  //   const newForest: Tree<'children'>[] | [] = find([tree], ((t) => {
-  //     res.push(t.key)
-  //     return t.key <= 0
-  //   }))
-  //   expect(newForest.length).to.be.equal(0);
-  //   expect(res.length).to.be.equal(1);
-  // })
+  it('for forest no-matched item by default strategy (pre)', function () {
+    const res: any[] = []
+    const matchedItem: Tree<'children'> | undefined = find([tree], ((t) => {
+      res.push(t.key)
+      return t.key <= 0
+    }))
+    expect(matchedItem).to.be.equal(undefined);
+    expect(res.length).to.be.equal(6);
+  })
 
-  // it('for forest no-matched item by post strategy', function () {
-  //   const res: any[] = []
-  //   const newForest: Tree<'children'>[] | [] = find([tree], ((t) => {
-  //     res.push(t.key)
-  //     return t.key <= 0
-  //   }), { strategy: 'post' })
-  //   expect(newForest.length).to.be.equal(0);
-  //   expect(res.length).to.be.equal(6);
-  // })
+  it('for forest no-matched item by post strategy', function () {
+    const res: any[] = []
+    const matchedItem: Tree<'children'> | undefined = find([tree], ((t) => {
+      res.push(t.key)
+      return t.key <= 0
+    }), { strategy: 'post' })
+    expect(matchedItem).to.be.equal(undefined);
+    expect(res.length).to.be.equal(6);
+  })
 
-  // it('for forest no-matched item by breadth strategy', function () {
-  //   const res: any[] = []
-  //   const newForest: Tree<'children'>[] | [] = find([tree], ((t) => {
-  //     res.push(t.key)
-  //     return t.key <= 0
-  //   }), { strategy: 'breadth' })
-  //   expect(newForest.length).to.be.equal(0);
-  //   expect(res.length).to.be.equal(1);
-  // })
+  it('for forest no-matched item by breadth strategy', function () {
+    const res: any[] = []
+    const matchedItem: Tree<'children'> | undefined = find([tree], ((t) => {
+      res.push(t.key)
+      return t.key <= 0
+    }), { strategy: 'breadth' })
+    expect(matchedItem).to.be.equal(undefined);
+    expect(res.length).to.be.equal(6);
+  })
 })
