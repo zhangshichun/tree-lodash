@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'tree-lodash',
+  title: 'tree-lodash（树大师）',
   description: '像使用 `lodash.js` 一样方便地操控树结构',
   themeConfig: {
     sidebar: [
