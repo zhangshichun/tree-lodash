@@ -4,3 +4,5 @@ dist/**
 yarn.lock
 
 .nyc_output
+
+docs/.vuepress/dist
