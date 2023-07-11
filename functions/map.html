@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>map | tree-lodash（树大师）</title>
+    <meta name="generator" content="VuePress 1.9.9">
+    
+    <meta name="description" content="像使用 `lodash.js` 一样方便地操控树结构">
+    
+    <link rel="preload" href="/tree-lodash/assets/css/0.styles.3aa17a32.css" as="style"><link rel="preload" href="/tree-lodash/assets/js/app.8869fa8f.js" as="script"><link rel="preload" href="/tree-lodash/assets/js/2.70c55e60.js" as="script"><link rel="preload" href="/tree-lodash/assets/js/11.3709c92e.js" as="script"><link rel="prefetch" href="/tree-lodash/assets/js/10.b6e11937.js"><link rel="prefetch" href="/tree-lodash/assets/js/12.0b5144f6.js"><link rel="prefetch" href="/tree-lodash/assets/js/13.f63a7d25.js"><link rel="prefetch" href="/tree-lodash/assets/js/14.a55f6c5b.js"><link rel="prefetch" href="/tree-lodash/assets/js/3.752d77f6.js"><link rel="prefetch" href="/tree-lodash/assets/js/4.ad0ac85c.js"><link rel="prefetch" href="/tree-lodash/assets/js/5.fac27e57.js"><link rel="prefetch" href="/tree-lodash/assets/js/6.7db0d3bd.js"><link rel="prefetch" href="/tree-lodash/assets/js/7.c1b7371b.js"><link rel="prefetch" href="/tree-lodash/assets/js/8.abfe201c.js"><link rel="prefetch" href="/tree-lodash/assets/js/9.c431ccb4.js">
+    <link rel="stylesheet" href="/tree-lodash/assets/css/0.styles.3aa17a32.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/tree-lodash/" class="home-link router-link-active"><!----> <span class="site-name">tree-lodash（树大师）</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/tree-lodash/" aria-current="page" class="sidebar-link">简介(Intro)</a></li><li><section class="sidebar-group depth-0"><a href="/tree-lodash/guide/" class="sidebar-heading clickable"><span>起步(Get Start)</span> <!----></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/tree-lodash/guide/" class="sidebar-link">指南</a></li><li><a href="/tree-lodash/guide/features.html" class="sidebar-link">Features (特性)</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>方法列表</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/tree-lodash/functions/foreach.html" class="sidebar-link">foreach</a></li><li><a href="/tree-lodash/functions/map.html" aria-current="page" class="active sidebar-link">map</a></li><li><a href="/tree-lodash/functions/filter.html" class="sidebar-link">filter</a></li><li><a href="/tree-lodash/functions/find.html" class="sidebar-link">find</a></li><li><a href="/tree-lodash/functions/toArray.html" class="sidebar-link">toArray</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="map"><a href="#map" class="header-anchor">#</a> map</h1> <div class="language-js extra-class"><pre class="language-js"><code><span class="token function">map</span><span class="token punctuation">(</span>tree<span class="token punctuation">,</span> predicate<span class="token punctuation">,</span> <span class="token punctuation">[</span>options<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre></div><p>遍历把 &quot;树&quot; 或者 &quot;森林&quot;，根据返回的对象，组成新的树。（不会影响原结构，返回的树是新生成的）</p> <p><strong>添加版本</strong>：v0.0.2</p> <p>参数：</p> <ol><li><code>tree</code>: 典型树结构，或者由多个树结构构成的数组；</li> <li><code>predicate</code>: 每次迭代调用的函数，需要返回一个对象，返回的对象上无需包括子节点。</li> <li><code>[options]</code>: 配置项，支持 <code>strategy</code> 和 <code>childrenKey</code></li></ol> <p>示例：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> tree <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">children</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">children</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">'3'</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token function">map</span><span class="token punctuation">(</span>tree<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">t</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span> <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">No.</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>t<span class="token punctuation">.</span>key<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment">/**
+ * {
+ *   name: 'No.1',
+ *   children: [
+ *     {
+ *       name: 'No.2',
+ *       children: [
+ *         {
+ *           name: 'No.3'
+ *         }
+ *       ]
+ *     }
+ *   ]
+ * }
+ */</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/tree-lodash/functions/foreach.html" class="prev">
+        foreach
+      </a></span> <span class="next"><a href="/tree-lodash/functions/filter.html">
+        filter
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/tree-lodash/assets/js/app.8869fa8f.js" defer></script><script src="/tree-lodash/assets/js/2.70c55e60.js" defer></script><script src="/tree-lodash/assets/js/11.3709c92e.js" defer></script>
+  </body>
+</html>
