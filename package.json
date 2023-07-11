@@ -15,6 +15,7 @@
   "module": "dist/esm/index.js",
   "typings": "dist/esm/index.d.ts",
   "license": "MIT",
+  "homepage": "https://zhangshichun.github.io/tree-lodash/",
   "repository": "https://github.com/zhangshichun/tree-lodash",
   "bugs": "https://github.com/zhangshichun/tree-lodash/issues",
   "author": "https://github.com/zhangshichun",
