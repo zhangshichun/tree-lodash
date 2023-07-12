@@ -30,7 +30,7 @@ const tree = {
     }
   ]
 }
-foreach(tree, (t) => t.key < 2)
+filter(tree, (t) => t.key < 2)
 /**
  * {
  *   key: 1,
