@@ -7,9 +7,9 @@ foreach(tree, predicate, [options])
 遍历把 "树" 或者 "森林"，对每个节点执行回调。
 
 **添加版本**：v0.0.2
-
-<demo-foreach />
-
+<ClientOnly>
+  <demo-foreach />
+</ClientOnly>
 参数：
 
 1. `tree`: 典型树结构，或者由多个树结构构成的数组；
