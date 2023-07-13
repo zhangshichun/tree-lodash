@@ -8,6 +8,8 @@ foreach(tree, predicate, [options])
 
 **添加版本**：v0.0.2
 
+<demo-foreach />
+
 参数：
 
 1. `tree`: 典型树结构，或者由多个树结构构成的数组；
