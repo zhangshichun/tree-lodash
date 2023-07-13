@@ -7,7 +7,9 @@ filter(tree, predicate, [options])
 遍历把 "树" 或者 "森林"，并把返回非真值的节点剔除。（不会影响原结构，返回的树是新生成的）
 
 **添加版本**：v0.0.2
-
+<ClientOnly>
+  <demo-filter />
+</ClientOnly>
 参数：
 
 1. `tree`: 典型树结构，或者由多个树结构构成的数组；
@@ -17,24 +19,52 @@ filter(tree, predicate, [options])
 示例：
 
 ```js
-const tree = {
+const data = {
   key: 1,
   children: [
     {
-      key: 2,
+      key: 11,
       children: [
         {
-          key: 3
+          key: 111
+        },
+        {
+          key: 112
+        }
+      ]
+    },
+    {
+      key: 12,
+      children: [
+        {
+          key: 122,
+          children: [
+            {
+              key: 1221
+            },
+            {
+              key: 1222
+            }
+          ]
         }
       ]
     }
   ]
 }
-filter(tree, (t) => t.key < 2)
+filter(data, (t) => t.key < 100)
 /**
- * {
- *   key: 1,
- *   children: []
- * }
+  {
+    key: 1,
+    children: [
+      {
+        key: 11,
+        children: []
+      },
+      {
+        key: 12,
+        children: []
+      }
+    ]
+  }
  */
 ```

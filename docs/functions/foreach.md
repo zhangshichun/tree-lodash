@@ -19,21 +19,45 @@ foreach(tree, predicate, [options])
 示例：
 
 ```js
-const tree = {
-  key: '1',
+const data = {
+  key: 1,
   children: [
     {
-      key: '2',
+      key: 11,
       children: [
         {
-          key: '3'
+          key: 111
+        },
+        {
+          key: 112
+        }
+      ]
+    },
+    {
+      key: 12,
+      children: [
+        {
+          key: 122,
+          children: [
+            {
+              key: 1221
+            },
+            {
+              key: 1222
+            }
+          ]
         }
       ]
     }
   ]
 }
-foreach(tree, (t) => console.log(t.key))
+foreach(data, (t) => console.log(t.key))
 // 1
-// 2
-// 3
+// 11
+// 111
+// 112
+// 12
+// 122
+// 1221
+// 1222
 ```
