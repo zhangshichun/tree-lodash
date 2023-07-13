@@ -54,13 +54,16 @@ export default {
   data() {
     return {
       strategy: 'pre',
-      visitedItems: []
+      passedItems: [],
+      invalidItems: []
     }
   },
   computed: {
     treeData() {
       return window.treeLodash.map(data, (oldItem) => {
-        const fillColor = this.visitedItems.some(t => t.key === oldItem.key) ? 'green' : '#fff'
+        const inPassed = this.passedItems.some(t => t.key === oldItem.key)
+        const inInvalid = this.invalidItems.some(t => t.key === oldItem.key)
+        const fillColor = inPassed ? 'green' : inInvalid ? 'red': '#fff'
         return {
           ...oldItem,
           label: oldItem.key,
@@ -73,18 +76,26 @@ export default {
   },
   methods: {
     play() {
-      this.visitedItems = []
+      this.passedItems = []
+      this.invalidItems = []
       clearTimeout(this.timer)
-      const tempItems = []
-      window.treeLodash.foreach(this.treeData, item => {
-        tempItems.push(item)
+      const tempArr = []
+      window.treeLodash.find(this.treeData, item => {
+        const result = item.key < 100 && item.key > 10
+        tempArr.push({ result, item })
+        return result;
       }, { strategy: this.strategy })
       const shift = () => {
-        const shiftItem = tempItems.shift()
-        if (shiftItem) {
-          this.visitedItems.push(shiftItem)
+        const shiftObj = tempArr.shift()
+        if (shiftObj) {
+          const result = shiftObj.result
+          if (result) {
+            this.passedItems.push(shiftObj.item)
+          } else {
+            this.invalidItems.push(shiftObj.item)
+          }
         }
-        if (tempItems.length) {
+        if (tempArr.length) {
           this.timer = setTimeout(shift, 500)
         }
       }

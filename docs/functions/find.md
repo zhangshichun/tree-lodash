@@ -7,7 +7,9 @@ find(tree, predicate, [options])
 遍历把 "树" 或者 "森林"，找到第一个返回非空值的节点。
 
 **添加版本**：v0.1.0
-
+<ClientOnly>
+  <demo-find />
+</ClientOnly>
 参数：
 
 1. `tree`: 典型树结构，或者由多个树结构构成的数组；
@@ -17,29 +19,51 @@ find(tree, predicate, [options])
 示例：
 
 ```js
-const tree = {
+const data = {
   key: 1,
   children: [
     {
-      key: 2,
+      key: 11,
       children: [
         {
-          key: 3
+          key: 111
+        },
+        {
+          key: 112
+        }
+      ]
+    },
+    {
+      key: 12,
+      children: [
+        {
+          key: 122,
+          children: [
+            {
+              key: 1221
+            },
+            {
+              key: 1222
+            }
+          ]
         }
       ]
     }
   ]
 }
-find(tree, (t) => t.key === 2)
+find(data, (t) => t.key === 2)
 /**
  * 会保留其本来的结构
- * {
- *   key: 2,
- *   children: [
- *    {
- *      key: 3
- *    }
- *  ]
- * }
+  {
+    key: 11,
+    children: [
+      {
+        key: 111
+      },
+      {
+        key: 112
+      }
+    ]
+  }
  */
 ```
