@@ -1,13 +1,10 @@
-import { ChildrenKey, Tree, BaseOptions, BaseCallbackMeta } from "./types";
+import { getFinalChildrenKey } from "./helpers/common";
+import { ChildrenKey, Tree, BaseOptions, BaseCallbackMeta, BaseInnerOptions } from "./types";
 
 export type FindOptions = BaseOptions
 export type FindCallbackMeta<T extends ChildrenKey> = BaseCallbackMeta<T>
 export type FindCallback<T extends ChildrenKey> = (treeItem: Tree<T>, meta: FindCallbackMeta<T>) => boolean | undefined
-type FindInnerOption<T extends ChildrenKey> = {
-  childrenKey: ChildrenKey
-  parents: Tree<T>[],
-  depth: number
-}
+type FindInnerOption<T extends ChildrenKey> = BaseInnerOptions<T>
 type FindImpl<T extends ChildrenKey> = (treeItem: Tree<T>, callback: FindCallback<T>, options: FindInnerOption<T>) => Tree<T>|undefined
 
 // 前置深度优先遍历
@@ -16,7 +13,8 @@ const preImpl: FindImpl<ChildrenKey> = (treeItem, callback, options) => {
   if (callbackResult) {
     return treeItem
   }
-  const children = treeItem[options.childrenKey]
+  const finalChildrenKey = getFinalChildrenKey(treeItem, options, options)
+  const children = treeItem[finalChildrenKey]
   if (!children || !Array.isArray(children)) {
     return undefined
   }
@@ -31,8 +29,8 @@ const preImpl: FindImpl<ChildrenKey> = (treeItem, callback, options) => {
 
 // 后置深度优先遍历
 const postImpl: FindImpl<ChildrenKey> = (treeItem, callback, options) => {
-  const children = treeItem[options.childrenKey]
-  
+  const finalChildrenKey = getFinalChildrenKey(treeItem, options, options)
+  const children = treeItem[finalChildrenKey]
   if (children && Array.isArray(children)) {
     const findOne = children.find((childItem) => {
       return postImpl(childItem, callback, {
@@ -71,8 +69,9 @@ const breadthImpl: FindImpl<ChildrenKey> = (treeItem, callback, options) => {
     }
     const queueItem = queue.shift() as QueueItem
     const treeItem = queueItem.tree
-    if (treeItem[options.childrenKey] && Array.isArray(treeItem[options.childrenKey])) {
-      const subQueueItems = treeItem[options.childrenKey].map((subTree: Tree) => (
+    const finalChildrenKey = getFinalChildrenKey(treeItem, queueItem.options, queueItem.options)
+    if (treeItem[finalChildrenKey] && Array.isArray(treeItem[finalChildrenKey])) {
+      const subQueueItems = treeItem[finalChildrenKey].map((subTree: Tree) => (
         {
           tree: subTree,
           options: {
@@ -102,11 +101,13 @@ const strategies = {
 function find<T extends ChildrenKey>(tree: Tree<T> | Tree<T>[], callback: FindCallback<T>, options?: FindOptions): Tree<T> | undefined {
   const childrenKey = options?.childrenKey ?? 'children'
   const strategy = options?.strategy ?? 'pre'
+  const getChildrenKey = options?.getChildrenKey
   const method = strategies[strategy]
   const innerOptions = {
     childrenKey,
     depth: 0,
-    parents: [] as Tree[]
+    parents: [] as Tree[],
+    getChildrenKey
   }
   if (Array.isArray(tree)) {
     for(let i = 0, count = tree.length; i < count; i++) {

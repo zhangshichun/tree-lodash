@@ -13,7 +13,7 @@
 
 ## Features (特性)
 
-👉[特性(Features)](./docs/guide/features.md)
+👉[特性(Features) & 配置(Configs)](./docs/guide/features.md)
 
 ## Functions (方法列表)
 

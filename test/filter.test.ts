@@ -33,9 +33,36 @@ describe('[filter]', function () {
     ]
   }
 
-  const treeSubItems: Tree<'subItems'> =  {
+  const treeSubItems: Tree<'subItems'> = {
     key: 1,
     subItems: [
+      {
+        key: 11,
+        subItems: [
+          {
+            key: 111
+          }
+        ]
+      },
+      {
+        key: 12,
+        subItems: [
+          {
+            key: 112,
+            subItems: [
+              {
+                key: 1111
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+
+  const treeMultiChildrenKey: Tree = {
+    key: 1,
+    children: [
       {
         key: 11,
         subItems: [
@@ -105,7 +132,7 @@ describe('[filter]', function () {
     expect(res[2]).to.be.equal(12);
     expect(res[3]).to.be.equal(111);
   })
-  it('by tree childrenKey is "subItems"', function() {
+  it('by tree childrenKey is "subItems"', function () {
     const res: any[] = []
     const newTree: Tree<'subItems'> | undefined = filter(treeSubItems, ((t) => {
       res.push(t.key)
@@ -119,6 +146,18 @@ describe('[filter]', function () {
     expect(res[1]).to.be.equal(11);
     expect(res[2]).to.be.equal(111);
     expect(res[3]).to.be.equal(12);
+  })
+  it('by tree childrenKey is wrong', function () {
+    const res: any[] = []
+    const newTree: Tree | undefined = filter(tree, ((t) => {
+      res.push(t.key)
+      return t.key === 1 || t.key === 11
+    }), { childrenKey: 'babies' })    
+    expect(newTree?.key).to.be.equal(1);
+    expect(newTree?.children?.[0]?.key).to.be.equal(11);
+    expect(newTree?.children?.[0]?.children?.[0]?.key).to.be.equal(111);
+    expect(res.length).to.be.equal(1);
+    expect(res[0]).to.be.equal(1);
   })
   it('for forest by default strategy (pre)', function () {
     const res: any[] = []
@@ -194,5 +233,68 @@ describe('[filter]', function () {
     }), { strategy: 'breadth' })
     expect(newForest.length).to.be.equal(0);
     expect(res.length).to.be.equal(1);
+  })
+
+  it('by default strategy (pre) and getChildrenKey', function () {
+    const res: any[] = []
+    const newTree: Tree<'children'> | undefined = filter(treeMultiChildrenKey, ((t) => {
+      res.push(t.key)
+      return t.key <= 100
+    }),
+      {
+        getChildrenKey(tree) {
+          return tree.key < 10 ? 'children' : 'subItems'
+        }
+      }
+    )
+    expect(newTree?.key).to.be.equal(1);
+    expect(newTree?.children?.[0]?.key).to.be.equal(11);
+    expect(newTree?.children?.[0]?.children?.[0]?.key).to.be.equal(undefined);
+    expect(res.length).to.be.equal(5);
+    expect(res[0]).to.be.equal(1);
+    expect(res[1]).to.be.equal(11);
+    expect(res[2]).to.be.equal(111);
+    expect(res[3]).to.be.equal(12);
+  })
+  it('by post strategy and getChildrenKey', function () {
+    const res: any[] = []
+    const newTree: Tree<'children'> | undefined = filter(treeMultiChildrenKey, ((t) => {
+      res.push(t.key)
+      return t.key <= 100
+    }), {
+      strategy: 'post',
+      getChildrenKey(tree) {
+        return tree.key < 10 ? 'children' : 'subItems'
+      }
+    })
+    expect(newTree?.key).to.be.equal(1);
+    expect(newTree?.children?.[0]?.key).to.be.equal(11);
+    expect(newTree?.children?.[0]?.children?.[0]?.key).to.be.equal(undefined);
+    expect(res.length).to.be.equal(6);
+    expect(res[0]).to.be.equal(111);
+    expect(res[1]).to.be.equal(11);
+    expect(res[2]).to.be.equal(1111);
+    expect(res[3]).to.be.equal(112);
+  })
+  it('by breadth strategy and getChildrenKey', function () {
+    const res: any[] = []
+    const newTree: Tree<'children'> | undefined = filter(treeMultiChildrenKey, ((t) => {
+      res.push(t.key)
+      return t.key <= 100
+    }),
+      {
+        strategy: 'breadth',
+        getChildrenKey(tree) {
+          return tree.key < 10 ? 'children' : 'subItems'
+        }
+      })
+    expect(newTree?.key).to.be.equal(1);
+    expect(newTree?.children?.[0]?.key).to.be.equal(11);
+    expect(newTree?.children?.[0]?.children?.[0]?.key).to.be.equal(undefined);
+    expect(res.length).to.be.equal(5);
+    expect(res[0]).to.be.equal(1);
+    expect(res[1]).to.be.equal(11);
+    expect(res[2]).to.be.equal(12);
+    expect(res[3]).to.be.equal(111);
   })
 })
