@@ -60,6 +60,33 @@ describe('[find]', function () {
     ]
   }
 
+  const treeMultiChildrenKey: Tree = {
+    key: 1,
+    children: [
+      {
+        key: 11,
+        subItems: [
+          {
+            key: 111
+          }
+        ]
+      },
+      {
+        key: 12,
+        subItems: [
+          {
+            key: 112,
+            subItems: [
+              {
+                key: 1111
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+
   it('by default strategy (pre)', function () {
     const res: any[] = []
     const newTree: Tree<'children'> | undefined = find(tree, ((t) => {
@@ -174,5 +201,60 @@ describe('[find]', function () {
     }), { strategy: 'breadth' })
     expect(matchedItem).to.be.equal(undefined);
     expect(res.length).to.be.equal(6);
+  })
+  it('by default strategy (pre) and getChildrenKey', function () {
+    const res: any[] = []
+    const newTree: Tree | undefined = find(treeMultiChildrenKey, ((t) => {
+      res.push(t.key)
+      return t.key <= 100 && t.key > 1
+    }),
+    {
+      strategy: 'pre',
+      getChildrenKey(tree) {
+        return tree.key < 10 ? 'children' : 'subItems'
+      }
+    })
+    expect(newTree?.key).to.be.equal(11);
+    expect(newTree?.subItems?.[0]?.key).to.be.equal(111);
+    expect(res.length).to.be.equal(2);
+    expect(res[0]).to.be.equal(1);
+    expect(res[1]).to.be.equal(11);
+  })
+  it('by post strategy and getChildrenKey', function () {
+    const res: any[] = []
+    const newTree: Tree | undefined = find(treeMultiChildrenKey, ((t) => {
+      res.push(t.key)
+      return t.key <= 100 && t.key > 1
+    }),
+    {
+      strategy: 'post',
+      getChildrenKey(tree) {
+        return tree.key < 10 ? 'children' : 'subItems'
+      }
+    })
+    expect(newTree?.key).to.be.equal(11);
+    expect(newTree?.subItems?.[0]?.key).to.be.equal(111);
+    expect(res.length).to.be.equal(2);
+    expect(res[0]).to.be.equal(111);
+    expect(res[1]).to.be.equal(11);
+  })
+  it('by breadth strategy and getChildrenKey', function () {
+    const res: any[] = []
+    const newTree: Tree<'children'> | undefined = find(treeMultiChildrenKey, ((t) => {
+      res.push(t.key)
+      return t.key === 12
+    }),
+    {
+      strategy: 'breadth',
+      getChildrenKey(tree) {
+        return tree.key < 10 ? 'children' : 'subItems'
+      }
+    })
+    expect(newTree?.key).to.be.equal(12);
+    expect(newTree?.subItems?.[0]?.key).to.be.equal(112);
+    expect(res.length).to.be.equal(3);
+    expect(res[0]).to.be.equal(1);
+    expect(res[1]).to.be.equal(11);
+    expect(res[2]).to.be.equal(12);
   })
 })

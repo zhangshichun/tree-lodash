@@ -1,4 +1,5 @@
-import type { ChildrenKey, Tree, BaseOptions, BaseCallbackMeta } from "./types";
+import { getFinalChildrenKey } from "./helpers/common";
+import type { ChildrenKey, Tree, BaseOptions, BaseCallbackMeta, BaseInnerOptions } from "./types";
 
 export type ForeachOptions = BaseOptions
 
@@ -7,11 +8,7 @@ export type ForeachCallbackMeta<T extends ChildrenKey> = BaseCallbackMeta<T>
 export type ForeachCallback<T extends ChildrenKey> = (treeItem: Tree<T>, meta: ForeachCallbackMeta<T>) => void
 
 
-type ForeachInnerOption<T extends ChildrenKey> = {
-  childrenKey: ChildrenKey
-  parents: Tree<T>[],
-  depth: number
-}
+type ForeachInnerOption<T extends ChildrenKey> = BaseInnerOptions<T>
 
 
 type ForeachImpl<T extends ChildrenKey> = (treeItem: Tree<T>, callback: ForeachCallback<T>, options: ForeachInnerOption<T>) => void
@@ -20,28 +17,32 @@ type ForeachImpl<T extends ChildrenKey> = (treeItem: Tree<T>, callback: ForeachC
 // 前置遍历
 const preImpl: ForeachImpl<ChildrenKey> = (treeItem, callback, options) => {
   callback(treeItem, options)
-  const children = treeItem[options.childrenKey]
+  const finalChildrenKey = getFinalChildrenKey(treeItem, options, options)
+  const children = treeItem[finalChildrenKey]
   if (children && Array.isArray(children)) {
+    const nextLevelOptions = {
+      ...options,
+      parents: [...options.parents, treeItem],
+      depth: options.depth + 1
+    }
     children.forEach((childItem) => {
-      preImpl(childItem, callback, {
-        ...options,
-        parents: [...options.parents, treeItem],
-        depth: options.depth + 1
-      })
+      preImpl(childItem, callback, nextLevelOptions)
     })
   }
 }
 
 // 后置遍历
 const postImpl: ForeachImpl<ChildrenKey> = (treeItem, callback, options) => {
-  const children = treeItem[options.childrenKey]
+  const finalChildrenKey = getFinalChildrenKey(treeItem, options, options)
+  const children = treeItem[finalChildrenKey]
   if (children && Array.isArray(children)) {
+    const nextLevelOptions = {
+      ...options,
+      parents: [...options.parents, treeItem],
+      depth: options.depth + 1
+    }
     children.forEach((childItem) => {
-      postImpl(childItem, callback, {
-        ...options,
-        parents: [...options.parents, treeItem],
-        depth: options.depth + 1
-      })
+      postImpl(childItem, callback, nextLevelOptions)
     })
   }
   callback(treeItem, options)
@@ -67,15 +68,18 @@ const breadthImpl: ForeachImpl<ChildrenKey> = (treeItem, callback, options) => {
     }
     const queueItem = queue.shift() as QueueItem
     const treeItem = queueItem.tree
-    if (treeItem[options.childrenKey] && Array.isArray(treeItem[options.childrenKey])) {
-      const subQueueItems = treeItem[options.childrenKey].map((subTree: Tree) => (
+
+    const finalChildrenKey = getFinalChildrenKey(treeItem, queueItem.options, queueItem.options)
+    if (treeItem[finalChildrenKey] && Array.isArray(treeItem[finalChildrenKey])) {
+      const nextLevelOptions = {
+        ...queueItem.options,
+        parents: [...queueItem.options.parents, treeItem],
+        depth: queueItem.options.depth + 1
+      }
+      const subQueueItems = treeItem[finalChildrenKey].map((subTree: Tree) => (
         {
           tree: subTree,
-          options: {
-            ...queueItem.options,
-            parents: [...queueItem.options.parents, treeItem],
-            depth: queueItem.options.depth + 1
-          }
+          options: nextLevelOptions
         }
       ))
       queue.push(...subQueueItems)
@@ -92,15 +96,17 @@ const strategies = {
   'breadth': breadthImpl
 }
 
-function foreach<T extends ChildrenKey> (tree: Tree<T> | Tree<T>[] , callback: ForeachCallback<T>, options?: ForeachOptions): void{
+function foreach<T extends ChildrenKey>(tree: Tree<T> | Tree<T>[], callback: ForeachCallback<T>, options?: ForeachOptions): void {
   const childrenKey = options?.childrenKey ?? 'children'
   const strategy = options?.strategy ?? 'pre'
+  const getChildrenKey = options?.getChildrenKey
   const isForest = Array.isArray(tree)
   const method = strategies[strategy]
   const innerOptions = {
     childrenKey,
     depth: 0,
-    parents: [] as Tree[]
+    parents: [] as Tree[],
+    getChildrenKey
   }
   isForest ? tree.forEach(tree => {
     method(tree, callback, innerOptions)
