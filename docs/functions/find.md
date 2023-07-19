@@ -51,7 +51,7 @@ const data = {
     }
   ]
 }
-find(data, (t) => t.key === 2)
+find(data, (t) => t.key < 100 && t.key > 10)
 /**
  * 会保留其本来的结构
   {
