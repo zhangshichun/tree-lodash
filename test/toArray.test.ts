@@ -5,7 +5,7 @@ import { expect } from 'chai'
 import { toArray } from '../src/index'
 import type { Tree } from '../src/types'
 
-describe('[foreach]', function () {
+describe('[toArray]', function () {
   const tree: Tree = {
     key: '1',
     children: [

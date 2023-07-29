@@ -31,6 +31,7 @@ module.exports = {
           '/functions/map.html',
           '/functions/filter.html',
           '/functions/find.html',
+          '/functions/some.html',
           '/functions/toArray.html',
         ],
         collapsable: false, // 可选的, 默认值是 true,
