@@ -1,0 +1,58 @@
+# some
+
+```js
+some(tree, predicate, [options])
+```
+
+遍历把 "树" 或者 "森林"，判断符合某种条件的节点在树上是否存在。
+
+**添加版本**：v0.3.0
+<ClientOnly>
+  <demo-find />
+</ClientOnly>
+参数：
+
+1. `tree`: 典型树结构，或者由多个树结构构成的数组；
+2. `predicate`: 每次迭代调用的函数，返回非真值时，该节点会从树上剔除。
+3. `[options]`: 配置项，支持 `strategy` 和 `childrenKey`
+
+示例：
+
+```js
+const data = {
+  key: 1,
+  children: [
+    {
+      key: 11,
+      children: [
+        {
+          key: 111
+        },
+        {
+          key: 112
+        }
+      ]
+    },
+    {
+      key: 12,
+      children: [
+        {
+          key: 122,
+          children: [
+            {
+              key: 1221
+            },
+            {
+              key: 1222
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+some(data, (t) => t.key < 100 && t.key > 10)
+/**
+ * true (说明存在符合的节点)
+ */
+```

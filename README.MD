@@ -21,6 +21,7 @@
 - `map`: 👉[map 文档](./docs/functions/map.md)
 - `filter`: 👉[filter 文档](./docs/functions/filter.md)
 - `find`: 👉[find 文档](./docs/functions/find.md)
+- `some`: 👉[some 文档](./docs/functions/some.md)
 - `toArray`: 👉[toArray 文档](./docs/functions/toArray.md)
 
 ## 感谢 (Thanks)

@@ -3,13 +3,15 @@ import map from './map'
 import filter from "./filter";
 import toArray from "./toArray";
 import find from './find';
+import some from "./some";
 
 export default {
   foreach,
   map,
   filter,
   toArray,
-  find
+  find,
+  some
 };
 
 export {
@@ -17,5 +19,6 @@ export {
   map,
   filter,
   toArray,
-  find
+  find,
+  some
 };
