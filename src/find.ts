@@ -18,13 +18,18 @@ const preImpl: FindImpl<ChildrenKey> = (treeItem, callback, options) => {
   if (!children || !Array.isArray(children)) {
     return undefined
   }
-  return children.find((childItem) => {
-    return preImpl(childItem, callback, {
+  for(let i = 0, count = children.length; i < count; i ++) {
+    const childItem = children[i]
+    const findOne = preImpl(childItem, callback, {
       ...options,
       parents: [...options.parents, treeItem],
       depth: options.depth + 1
     })
-  })
+    if (findOne) {
+      return findOne
+    }
+  }
+  return undefined
 }
 
 // 后置深度优先遍历
@@ -32,15 +37,16 @@ const postImpl: FindImpl<ChildrenKey> = (treeItem, callback, options) => {
   const finalChildrenKey = getFinalChildrenKey(treeItem, options, options)
   const children = treeItem[finalChildrenKey]
   if (children && Array.isArray(children)) {
-    const findOne = children.find((childItem) => {
-      return postImpl(childItem, callback, {
+    for(let i = 0, count = children.length; i < count; i ++) {
+      const childItem = children[i]
+      const findOne = postImpl(childItem, callback, {
         ...options,
         parents: [...options.parents, treeItem],
         depth: options.depth + 1
       })
-    })
-    if (findOne) {
-      return findOne
+      if (findOne) {
+        return findOne
+      }
     }
   }
   const callbackResult = callback(treeItem, options)

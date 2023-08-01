@@ -91,23 +91,21 @@ describe('[find]', function () {
     const res: any[] = []
     const newTree: Tree<'children'> | undefined = find(tree, ((t) => {
       res.push(t.key)
-      return t.key <= 100 && t.key > 1
+      return t.key === 1111
     }))
-    expect(newTree?.key).to.be.equal(11);
-    expect(newTree?.children?.[0]?.key).to.be.equal(111);
-    expect(res.length).to.be.equal(2);
+    expect(newTree?.key).to.be.equal(1111);
+    expect(res.length).to.be.equal(6);
     expect(res[0]).to.be.equal(1);
     expect(res[1]).to.be.equal(11);
   })
   it('by post strategy ', function () {
     const res: any[] = []
-    const newTree: Tree | undefined = find(tree, ((t) => {
+    const newTree: Tree<'children'> | undefined = find(tree, ((t) => {
       res.push(t.key)
-      return t.key <= 100 && t.key > 1
+      return t.key === 1111
     }), { strategy: 'post' })
-    expect(newTree?.key).to.be.equal(11);
-    expect(newTree?.children?.[0]?.key).to.be.equal(111);
-    expect(res.length).to.be.equal(2);
+    expect(newTree?.key).to.be.equal(1111);
+    expect(res.length).to.be.equal(3);
     expect(res[0]).to.be.equal(111);
     expect(res[1]).to.be.equal(11);
   })
