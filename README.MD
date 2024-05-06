@@ -23,6 +23,7 @@
 - `find`: 👉[find 文档](./docs/functions/find.md)
 - `some`: 👉[some 文档](./docs/functions/some.md)
 - `toArray`: 👉[toArray 文档](./docs/functions/toArray.md)
+- `fromArray`: 👉[fromArray 文档](./docs/functions/fromArray.md)
 
 ## 感谢 (Thanks)
 
