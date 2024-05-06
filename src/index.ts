@@ -1,9 +1,10 @@
 import foreach from "./foreach";
-import map from './map'
+import map from "./map";
 import filter from "./filter";
 import toArray from "./toArray";
-import find from './find';
+import find from "./find";
 import some from "./some";
+import fromArray from "./fromArray";
 
 export default {
   foreach,
@@ -11,14 +12,8 @@ export default {
   filter,
   toArray,
   find,
-  some
+  some,
+  fromArray,
 };
 
-export {
-  foreach,
-  map,
-  filter,
-  toArray,
-  find,
-  some
-};
+export { foreach, map, filter, toArray, find, some, fromArray };

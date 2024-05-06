@@ -26,13 +26,14 @@ module.exports = {
       },
       {
         title: '方法列表',
-        children: [ 
+        children: [
           '/functions/foreach.html',
           '/functions/map.html',
           '/functions/filter.html',
           '/functions/find.html',
           '/functions/some.html',
           '/functions/toArray.html',
+          '/functions/fromArray.html',
         ],
         collapsable: false, // 可选的, 默认值是 true,
         sidebarDepth: 1,    // 可选的, 默认值是 1
