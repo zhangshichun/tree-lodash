@@ -7,7 +7,7 @@
 充分的单元测试：
 ![](https://pic.zhangshichun.top/pic/20230718-01.jpg)
 
-## Install & UseAge （安装&使用）
+## Install & Usage（安装&使用）
 
 👉[安装&使用文档(Install Document)](./docs/guide/README.md)
 
